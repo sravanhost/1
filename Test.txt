@@ -1,0 +1,21 @@
+import { render, waitFor } from '@testing-library/react';
+import MyGrid from './MyGrid';
+
+test('should get filter instance after grid renders', async () => {
+  const { container } = render(<MyGrid />);
+
+  // Wait for AG Grid to finish rendering rows
+  await waitFor(() => {
+    expect(container.querySelector('.ag-center-cols-container')).toBeTruthy();
+  });
+
+  const api = container.firstChild.api; // however you get your api ref
+  let filterInstance;
+
+  // Use callback form to be safe in v23
+  api.getFilterInstance('myColumn', (instance) => {
+    filterInstance = instance;
+  });
+
+  expect(filterInstance).toBeDefined();
+});
