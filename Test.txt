@@ -19,3 +19,34 @@ test('should get filter instance after grid renders', async () => {
 
   expect(filterInstance).toBeDefined();
 });
+
+
+
+
+import React from 'react';
+import { render, waitFor } from '@testing-library/react';
+import MyGrid from './MyGrid';
+
+test('gets custom filter instance without resolveNow error', async () => {
+  const { container } = render(<MyGrid />);
+
+  // Wait for rows to be rendered
+  await waitFor(() => {
+    expect(container.querySelectorAll('.ag-row').length).toBeGreaterThan(0);
+  });
+
+  // Get the grid API from the DOM element
+  const gridDiv = container.querySelector('.ag-root');
+  const api = gridDiv?.__agComponent?.gridOptionsWrapper?.gridOptions?.api;
+
+  expect(api).toBeDefined();
+
+  // Wait for filter instance
+  let filterInstance;
+  await waitFor(() => {
+    api.getFilterInstance('make', (instance) => {
+      filterInstance = instance;
+    });
+    expect(filterInstance).toBeDefined();
+  });
+});
