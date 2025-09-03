@@ -1,1 +1,121 @@
+You can achieve this by using a media query to change the layout to a single column on mobile. Here's how:
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.div2 {
+    grid-row: span 3 / span 3;
+}
+
+.div3 {
+    grid-row-start: 2;
+}
+
+.div4 {
+    grid-row-start: 3;
+}
+
+/* === Mobile View: Stack items in order === */
+@media (max-width: 600px) {
+    .parent {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .div1,
+    .div2,
+    .div3,
+    .div4 {
+        all: unset; /* remove previous grid placements */
+    }
+
+    .parent > div {
+        display: block;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="parent">
+    <div class="div1">1</div>
+    <div class="div2">2</div>
+    <div class="div3">3</div>
+    <div class="div4">4</div>
+</div>
+
+</body>
+</html>
+
+
+===========================
+
+Great — let's switch to Flexbox for the mobile layout while keeping your original CSS Grid for larger screens.
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.div2 {
+    grid-row: span 3 / span 3;
+}
+
+.div3 {
+    grid-row-start: 2;
+}
+
+.div4 {
+    grid-row-start: 3;
+}
+
+/* === Mobile View: Use Flexbox for vertical stacking === */
+@media (max-width: 600px) {
+    .parent {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .div1,
+    .div2,
+    .div3,
+    .div4 {
+        /* Reset Grid-specific styles */
+        all: unset;
+        display: block;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="parent">
+    <div class="div1">1</div>
+    <div class="div2">2</div>
+    <div class="div3">3</div>
+    <div class="div4">4</div>
+</div>
+
+</body>
+</html>
 
